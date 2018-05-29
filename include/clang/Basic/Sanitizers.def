@@ -114,6 +114,9 @@ SANITIZER_GROUP("cfi", CFI,
 // Safe Stack
 SANITIZER("safe-stack", SafeStack)
 
+// Return Stack
+SANITIZER("return-stack", ReturnStack)
+
 // Shadow Call Stack
 SANITIZER("shadow-call-stack", ShadowCallStack)
 

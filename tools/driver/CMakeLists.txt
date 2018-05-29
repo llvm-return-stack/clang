@@ -11,6 +11,7 @@ set( LLVM_LINK_COMPONENTS
   MCParser
   ObjCARCOpts
   Option
+  ReturnStackSanitizer
   ScalarOpts
   Support
   TransformUtils

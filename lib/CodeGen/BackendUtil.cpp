@@ -55,6 +55,7 @@
 #include "llvm/Transforms/Instrumentation/BoundsChecking.h"
 #include "llvm/Transforms/Instrumentation/GCOVProfiler.h"
 #include "llvm/Transforms/ObjCARC.h"
+#include "llvm/Transforms/ReturnStackSanitizer.h"
 #include "llvm/Transforms/Scalar.h"
 #include "llvm/Transforms/Scalar/GVN.h"
 #include "llvm/Transforms/Utils.h"
@@ -311,6 +312,11 @@ static void addEfficiencySanitizerPass(const PassManagerBuilder &Builder,
   else if (LangOpts.Sanitize.has(SanitizerKind::EfficiencyWorkingSet))
     Opts.ToolType = EfficiencySanitizerOptions::ESAN_WorkingSet;
   PM.add(createEfficiencySanitizerPass(Opts));
+}
+
+static void addReturnStackSanitizerPass(const PassManagerBuilder &Builder,
+                                        legacy::PassManagerBase &PM) {
+  PM.add(createReturnStackSanitizerPass());
 }
 
 static TargetLibraryInfoImpl *createTLII(llvm::Triple &TargetTriple,
@@ -631,6 +637,13 @@ void EmitAssemblyHelper::CreatePasses(legacy::PassManager &MPM,
                            addEfficiencySanitizerPass);
     PMBuilder.addExtension(PassManagerBuilder::EP_EnabledOnOptLevel0,
                            addEfficiencySanitizerPass);
+  }
+
+  if (LangOpts.Sanitize.has(SanitizerKind::ReturnStack)) {
+    PMBuilder.addExtension(PassManagerBuilder::EP_OptimizerLast,
+                           addReturnStackSanitizerPass);
+    PMBuilder.addExtension(PassManagerBuilder::EP_EnabledOnOptLevel0,
+                           addReturnStackSanitizerPass);
   }
 
   // Set up the per-function pass manager.

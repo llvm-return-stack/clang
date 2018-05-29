@@ -351,6 +351,10 @@ llvm::Function *CodeGenModule::CreateGlobalInitOrDestructFunction(
       !isInSanitizerBlacklist(SanitizerKind::SafeStack, Fn, Loc))
     Fn->addFnAttr(llvm::Attribute::SafeStack);
 
+  if (getLangOpts().Sanitize.has(SanitizerKind::ReturnStack) &&
+      !isInSanitizerBlacklist(SanitizerKind::ReturnStack, Fn, Loc))
+    Fn->addFnAttr(llvm::Attribute::ReturnStack);
+
   if (getLangOpts().Sanitize.has(SanitizerKind::ShadowCallStack) &&
       !isInSanitizerBlacklist(SanitizerKind::ShadowCallStack, Fn, Loc))
     Fn->addFnAttr(llvm::Attribute::ShadowCallStack);

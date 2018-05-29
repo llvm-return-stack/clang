@@ -17,6 +17,7 @@ set(LLVM_LINK_COMPONENTS
   Object
   Passes
   ProfileData
+  ReturnStackSanitizer
   ScalarOpts
   Support
   Target

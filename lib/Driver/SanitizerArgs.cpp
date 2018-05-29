@@ -712,6 +712,9 @@ SanitizerArgs::SanitizerArgs(const ToolChain &TC,
     SafeStackRuntime = !TC.getTriple().isOSFuchsia();
   }
 
+  if (AllAddedKinds & ReturnStack)
+    ReturnStackRuntime = true;
+
   // Parse -link-cxx-sanitizer flag.
   LinkCXXRuntimes =
       Args.hasArg(options::OPT_fsanitize_link_cxx_runtime) || D.CCCIsCXX();

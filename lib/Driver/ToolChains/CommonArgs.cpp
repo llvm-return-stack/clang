@@ -652,6 +652,10 @@ collectSanitizerRuntimes(const ToolChain &TC, const ArgList &Args,
     NonWholeStaticRuntimes.push_back("safestack");
     RequiredSymbols.push_back("__safestack_init");
   }
+  if (SanArgs.needsReturnStackRt()) {
+    NonWholeStaticRuntimes.push_back("returnstack");
+    RequiredSymbols.push_back("__return_stack_init");
+  }
   if (SanArgs.needsCfiRt())
     StaticRuntimes.push_back("cfi");
   if (SanArgs.needsCfiDiagRt()) {

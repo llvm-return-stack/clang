@@ -881,6 +881,8 @@ void CodeGenFunction::StartFunction(GlobalDecl GD,
     Fn->addFnAttr(llvm::Attribute::SanitizeMemory);
   if (SanOpts.has(SanitizerKind::SafeStack))
     Fn->addFnAttr(llvm::Attribute::SafeStack);
+  if (SanOpts.has(SanitizerKind::ReturnStack))
+    Fn->addFnAttr(llvm::Attribute::ReturnStack);
   if (SanOpts.has(SanitizerKind::ShadowCallStack))
     Fn->addFnAttr(llvm::Attribute::ShadowCallStack);
 
